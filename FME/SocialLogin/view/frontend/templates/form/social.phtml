@@ -1,0 +1,82 @@
+<div class="amsl-social-login ">
+            <p class="amsl-error -social" data-am-js="am-social-error"></p>
+           
+<div class="social-title" style="font-size: 1.8rem;">
+    <span>Login with Your Social Profile</span>
+</div>
+<div class="line" style="text-align: left;">
+    <hr style="width: 500px; margin-left: 0; "/>
+</div>
+
+                   
+
+<?php
+$availableSocials = $block->getAvailableSocials();
+$childBlock = $block->getChildBlock('request.info');
+
+
+if ($block->canShow() && sizeof($availableSocials)):
+?>
+    <div class="block social-login-authentication-channel account-social-login">
+        <div class="block-content social-buttons-container">
+            <?php foreach ($availableSocials as $key => $social): ?>
+                <div class="actions-toolbar social-btn social-btn-actions-toolbar <?= /* @noEscape */ $key ?>-login">
+                    <a class="btn btn-block btn-social btn-<?= /* @noEscape */ $block->getBtnKey($key) ?>"
+                       data-mage-init='{"socialProvider": {"url": "<?= /* @noEscape */ $social['login_url'] ?>", "label": "<?= /* @noEscape */ __('Login By %1', $social['label']) ?>"}}'>
+                        <!-- Display only the social network image, no label -->
+                        <img src="<?= /* @noEscape */ $social['image'] ?>" alt="<?= /* @noEscape */ $social['label'] ?>" class="social-login-image" />
+                    </a>
+                </div>
+            <?php endforeach; ?>
+        </div>
+    </div>
+<?php endif; ?>
+
+<?php if ($childBlock && $childBlock->isRequireMoreInfo()): ?>
+    <div id="social-login-popup" class="white-popup mfp-with-anim mfp-hide"
+         data-mage-init='{"FME_SocialLogin/js/popup":<?= /* @noEscape */ $childBlock->getFormParams() ?>}'>
+        <?= $block->getChildHtml('request.info') ?>
+    </div>
+<?php endif; ?>
+
+<style type="text/css">
+    .request-popup {
+        overflow-y: unset;
+        max-width: 800px;
+        left: 30%;
+        justify-content: space-around;
+    }
+
+    .request-popup .modal-header {
+        padding: 0;
+    }
+
+    .request-popup .modal-header button.action-close {
+        color: white;
+        z-index: 100;
+    }
+
+    .request-popup .modal-content {
+        padding: 0;
+    }
+
+    /* Style for individual social login images with spacing */
+    .social-btn {
+        display: inline-block;
+        width: auto;
+        text-align: center;
+        margin-right: 10px; /* Add margin between buttons */
+    }
+
+    .social-login-image {
+        max-width: 50px; /* Adjust size as needed */
+        height: auto;
+        display: block;
+    }
+    
+    /* Optional: Add padding or alignment adjustments if needed */
+    .social-buttons-container {
+        display: flex;
+        gap: 15px; /* Space between buttons */
+    }
+</style>
